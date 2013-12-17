@@ -1,0 +1,144 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8; py-indent-offset: 4 -*-
+
+#    Copyright (C) 2013 Lorenzo Dalrio <lorenzo.dalrio@cup2000.it>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import sys
+import telnetlib
+import re
+from optparse import OptionParser
+
+try:
+    from lxml import etree
+except:
+    print "You do not have lxml, please install it as we need it"
+    sys.exit(20)
+
+_user = "manage"
+_password = "!manage"
+_timeout = 30
+_hp_health_map = {0: "OK", 1: "Degraded", 2: "Fault", 3: "Unknown"}
+_hp2nagios_map = {"OK": 0, "Degraded": 1, "Fault": 2, "Unknown": 3}
+
+
+class CheckHPMSA:
+    def __init__(self, host):
+        try:
+            self._conn = telnetlib.Telnet(host, 23, _timeout)
+            self._conn.read_until("ogin: ")
+            self._conn.write(_user + "\r")
+            self._conn.read_until("Password: ")
+            self._conn.write(_password + "\r")
+            self._conn.read_until("# ")
+            self._conn.write("set cli-parameters api-embed brief on pager off\r")
+            self._conn.read_until("#")
+        except:
+            print("Connection Error...")
+            exit(_hp2nagios_map['Unknown'])
+
+    def _send_cmd(self, cmd):
+        """
+        @param cmd: command to be run on storage
+        @return: parsed xml response
+        """
+        self._conn.write(cmd + "\r")
+        self._conn.read_until("\r")
+        resp = self._conn.read_until("#")
+        xml = ""
+        for line in resp.splitlines():
+            if not re.match(r'^#', line) or re.match(r'^$', line):
+                xml += line
+        return etree.fromstring(xml)
+
+    def close_conn(self):
+        self._conn.write("exit\r")
+        self._conn.read_all()
+
+    def check_vdisks(self):
+        try:
+            resp = self._send_cmd("show vdisks")
+        except:
+            print("Error sending command to storage...")
+            return _hp2nagios_map['Unknown']
+        # cerco i vdisks che non sono OK
+        vdisks = resp.xpath("//PROPERTY[@name='health-numeric' and text()!=0]")
+        if vdisks:
+            for vdisk in vdisks:
+                name = vdisk.getparent().xpath("./PROPERTY[@name='name']/text()")[0]
+                size = vdisk.getparent().xpath("./PROPERTY[@name='size']/text()")[0]
+                health = vdisk.getparent().xpath("./PROPERTY[@name='health']/text()")[0]
+                health_reason = vdisk.getparent().xpath("./PROPERTY[@name='health-reason']/text()")[0]
+                status = vdisk.getparent().xpath("./PROPERTY[@name='status']/text()")[0]
+                serial_num = vdisk.getparent().xpath("./PROPERTY[@name='serial-number']/text()")[0]
+                print("[%s - Health: %s -> \"%s\" - Size: %s - Status: %s - ID: %s]" % (name, health, health_reason,
+                                                                                        size, status, serial_num))
+                return _hp2nagios_map[health]
+        else:
+            vdisks = resp.xpath("//OBJECT[@basetype='virtual-disks']")
+            print("All Vdisks are OK.")
+            for vdisk in vdisks:
+                name = vdisk.xpath("./PROPERTY[@name='name']/text()")[0]
+                size = vdisk.xpath("./PROPERTY[@name='size']/text()")[0]
+                health = vdisk.xpath("./PROPERTY[@name='health']/text()")[0]
+                status = vdisk.xpath("./PROPERTY[@name='status']/text()")[0]
+                serial_num = vdisk.xpath("./PROPERTY[@name='serial-number']/text()")[0]
+                print("[%s - Health: %s - Size: %s - Status: %s - ID: %s]" % (name, health, size, status, serial_num))
+            return _hp2nagios_map["OK"]
+
+    def check_disks(self):
+        try:
+            resp = self._send_cmd("show disks")
+        except:
+            print("Error sending command to storage...")
+            return _hp2nagios_map['Unknown']
+        disks = resp.xpath("//PROPERTY[@name='health-numeric' and text()!=0]")
+        if disks:
+            for disk in disks:
+                name = disk.getparent().xpath("./PROPERTY[@name='durable-id']/text()")[0]
+                size = disk.getparent().xpath("./PROPERTY[@name='size']/text()")[0]
+                encl = disk.getparent().xpath("./PROPERTY[@name='enclosure-id']/text()")[0]
+                bay = disk.getparent().xpath("./PROPERTY[@name='slot']/text()")[0]
+                model = disk.getparent().xpath("./PROPERTY[@name='model']/text()")[0]
+                revision = disk.getparent().xpath("./PROPERTY[@name='revision']/text()")[0]
+                health = disk.getparent().xpath("./PROPERTY[@name='health']/text()")[0]
+                health_reason = disk.getparent().xpath("./PROPERTY[@name='health-reason']/text()")[0]
+                print "[%s Enclosure: %s Bay: %s Model: %s Revision: %s Size: %s Health: %s -> \"%s\"]" %\
+                      (name, encl, bay, model, revision, size, health, health_reason)
+            return _hp2nagios_map[health]
+        else:
+            print("All HDD are OK.")
+
+
+def main():
+    parser = OptionParser()
+    parser.add_option("-H", "--hostname", dest="hostname", help="Hostname to connect to.")
+    parser.add_option("-m", "--mode", dest="mode", default="vdisks",
+                      help="Checks to run: disks, vdisks [default: %default]")
+    (options, args) = parser.parse_args()
+    if options.hostname:
+        stg = CheckHPMSA(options.hostname)
+        if options.mode == "vdisks":
+            ret = stg.check_vdisks()
+        elif options.mode == "disks":
+            ret = stg.check_disks()
+        stg.close_conn()
+        exit(ret)
+    else:
+        parser.error("I need a host to connect to.")
+        exit(3)
+
+if __name__ == "__main__":
+    main()

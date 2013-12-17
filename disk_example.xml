@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RESPONSE VERSION="W440" request="disks">
+  <OBJECT basetype="drives" name="drive" oid="1" format="rows">
+    <PROPERTY name="durable-id">disk_1.1</PROPERTY>
+    <PROPERTY name="enclosure-id">1</PROPERTY>
+    <PROPERTY name="slot">1</PROPERTY>
+    <PROPERTY name="location" key="true">1.1</PROPERTY>
+    <PROPERTY name="port">0</PROPERTY>
+    <PROPERTY name="scsi-id">0</PROPERTY>
+    <PROPERTY name="blocks" blocksize="512">286749488</PROPERTY>
+    <PROPERTY name="serial-number">3SD1BXKV00009007PYA1</PROPERTY>
+    <PROPERTY name="vendor">HP</PROPERTY>
+    <PROPERTY name="model">DG0146FAMWL</PROPERTY>
+    <PROPERTY name="revision">HPDC</PROPERTY>
+    <PROPERTY name="state">VDISK</PROPERTY>
+    <PROPERTY name="secondary-channel">1</PROPERTY>
+    <PROPERTY name="container-index">0</PROPERTY>
+    <PROPERTY name="member-index">0</PROPERTY>
+    <PROPERTY name="type">SAS</PROPERTY>
+    <PROPERTY name="job-running"></PROPERTY>
+    <PROPERTY name="blink">0</PROPERTY>
+    <PROPERTY name="speed">0</PROPERTY>
+    <PROPERTY name="lun">0</PROPERTY>
+    <PROPERTY name="smart">1</PROPERTY>
+    <PROPERTY name="dual-port">1</PROPERTY>
+    <PROPERTY name="error">0</PROPERTY>
+    <PROPERTY name="fc-p1-channel">0</PROPERTY>
+    <PROPERTY name="fc-p1-device-id">0</PROPERTY>
+    <PROPERTY name="fc-p1-node-wwn">5000c50016ceae37</PROPERTY>
+    <PROPERTY name="fc-p1-port-wwn">0000000000000000</PROPERTY>
+    <PROPERTY name="fc-p1-unit-number">0</PROPERTY>
+    <PROPERTY name="fc-p2-channel">1</PROPERTY>
+    <PROPERTY name="fc-p2-device-id">0</PROPERTY>
+    <PROPERTY name="fc-p2-node-wwn">5000c50016ceae37</PROPERTY>
+    <PROPERTY name="fc-p2-port-wwn">0000000000000000</PROPERTY>
+    <PROPERTY name="fc-p2-unit-number">0</PROPERTY>
+    <PROPERTY name="io-count">0</PROPERTY>
+    <PROPERTY name="transfer-count">0</PROPERTY>
+    <PROPERTY name="owner">A</PROPERTY>
+    <PROPERTY name="owner-numeric">1</PROPERTY>
+    <PROPERTY name="index">0</PROPERTY>
+    <PROPERTY name="rpm" units="k">10</PROPERTY>
+    <PROPERTY name="size" units="GB">146.8GB</PROPERTY>
+    <PROPERTY name="size-numeric">286749488</PROPERTY>
+    <PROPERTY name="transfer-rate" units="gbps">3.0</PROPERTY>
+    <PROPERTY name="attributes"></PROPERTY>
+    <PROPERTY name="virtual-disk-serial">00c0ffd8db4f00003076f04a00000000</PROPERTY>
+    <PROPERTY name="enclosure-wwn">500C0FF0D85E0B3C</PROPERTY>
+    <PROPERTY name="status">OK</PROPERTY>
+    <PROPERTY name="health">OK</PROPERTY>
+    <PROPERTY name="health-numeric">0</PROPERTY>
+    <PROPERTY name="health-reason"></PROPERTY>
+    <PROPERTY name="led-status"></PROPERTY>
+    <PROPERTY name="led-status-numeric">0</PROPERTY>
+  </OBJECT>
+  <OBJECT basetype="status" name="status" oid="25">
+    <PROPERTY name="response-type">Success</PROPERTY>
+    <PROPERTY name="response-type-numeric">0</PROPERTY>
+    <PROPERTY name="response">Command completed successfully.</PROPERTY>
+    <PROPERTY name="return-code">0</PROPERTY>
+    <PROPERTY name="component-id"></PROPERTY>
+</OBJECT>
+</RESPONSE>

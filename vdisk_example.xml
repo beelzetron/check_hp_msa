@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RESPONSE VERSION="W440" request="vdisks">
+  <OBJECT basetype="virtual-disks" name="virtual-disk" oid="1" format="rows">
+    <PROPERTY name="name">dgdati1_01</PROPERTY>
+    <PROPERTY name="size" units="GB">146.6GB</PROPERTY>
+    <PROPERTY name="size-numeric">286429952</PROPERTY>
+    <PROPERTY name="freespace" units="B">0B</PROPERTY>
+    <PROPERTY name="freespace-numeric">0</PROPERTY>
+    <PROPERTY name="owner">A</PROPERTY>
+    <PROPERTY name="owner-numeric">1</PROPERTY>
+    <PROPERTY name="preferred-owner">A</PROPERTY>
+    <PROPERTY name="preferred-owner-numeric">1</PROPERTY>
+    <PROPERTY name="raidtype">RAID1</PROPERTY>
+    <PROPERTY name="diskcount">2</PROPERTY>
+    <PROPERTY name="sparecount">0</PROPERTY>
+    <PROPERTY name="chunksize">N/A</PROPERTY>
+    <PROPERTY name="status">FTOL</PROPERTY>
+    <PROPERTY name="lun">0</PROPERTY>
+    <PROPERTY name="min-drive-size" units="GB">146.6GB</PROPERTY>
+    <PROPERTY name="min-drive-size-numeric">286429952</PROPERTY>
+    <PROPERTY name="create-date">2009-11-03 18:28:00</PROPERTY>
+    <PROPERTY name="cache-read-ahead">-1</PROPERTY>
+    <PROPERTY name="cache-flush-period">0</PROPERTY>
+    <PROPERTY name="read-ahead-enabled">true</PROPERTY>
+    <PROPERTY name="read-ahead-enabled-numeric">1</PROPERTY>
+    <PROPERTY name="write-back-enabled">true</PROPERTY>
+    <PROPERTY name="write-back-enabled-numeric">1</PROPERTY>
+    <PROPERTY name="number-of-reads">-2055383048</PROPERTY>
+    <PROPERTY name="number-of-writes">1357999180</PROPERTY>
+    <PROPERTY name="total-sectors-read">590173528</PROPERTY>
+    <PROPERTY name="total-sectors-written">590173528</PROPERTY>
+    <PROPERTY name="job-running"></PROPERTY>
+    <PROPERTY name="current-job"></PROPERTY>
+    <PROPERTY name="current-job-numeric">0</PROPERTY>
+    <PROPERTY name="current-job-completion"></PROPERTY>
+    <PROPERTY name="target-id">255</PROPERTY>
+    <PROPERTY name="num-array-partitions">1</PROPERTY>
+    <PROPERTY name="largest-free-partition-space">0</PROPERTY>
+    <PROPERTY name="num-drives-per-low-level-array">1</PROPERTY>
+    <PROPERTY name="num-expansion-partitions">0</PROPERTY>
+    <PROPERTY name="num-partition-segments">0</PROPERTY>
+    <PROPERTY name="new-partition-lba">0</PROPERTY>
+    <PROPERTY name="array-drive-type">SAS</PROPERTY>
+    <PROPERTY name="is-job-auto-abortable">false</PROPERTY>
+    <PROPERTY name="is-job-auto-abortable-numeric">0</PROPERTY>
+    <PROPERTY name="serial-number" key="true">00c0ffd8db4f00003076f04a00000000</PROPERTY>
+    <PROPERTY name="blocks" blocksize="512">286429952</PROPERTY>
+    <PROPERTY name="health">OK</PROPERTY>
+    <PROPERTY name="health-numeric">0</PROPERTY>
+    <PROPERTY name="health-reason">The virtual disk is fault tolerant.</PROPERTY>
+    <PROPERTY name="health-blame">none</PROPERTY>
+    <PROPERTY name="health-blame-numeric">0</PROPERTY>
+  </OBJECT>
+  <OBJECT basetype="status" name="status" oid="11">
+    <PROPERTY name="response-type">Success</PROPERTY>
+    <PROPERTY name="response-type-numeric">0</PROPERTY>
+    <PROPERTY name="response">Command completed successfully.</PROPERTY>
+    <PROPERTY name="return-code">0</PROPERTY>
+    <PROPERTY name="component-id"></PROPERTY>
+</OBJECT>
+</RESPONSE>
